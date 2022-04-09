@@ -53,4 +53,4 @@ class Example3
 
 Example3::main();
 
-?>// ssh-keygen -t ed25519 -C "nukisashineko@com"
+?
