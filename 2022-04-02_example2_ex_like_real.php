@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 
 class Example2_Ex {
     private  static function is_user_deleted(int $user): bool
