@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 
 class Example1 {
     private static function is_odd(int $x): bool
