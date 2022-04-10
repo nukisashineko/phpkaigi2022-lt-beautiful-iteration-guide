@@ -38,15 +38,14 @@ class Example2_Ex {
         }
     }
 
-    private static function lazy__array_take(Generator $list, int $count): Generator
-    {
+   private static function lazy__array_take(Generator $list, int $count): Generator{
         $i = 0;
-        foreach ($list as $x){
-            if($i < $count){
+        foreach($list as $x){
+            if($count <= $i){
                 break;
             }
             yield $x;
-            $i += 1;
+           $i += 1;
         }
     }
 
