@@ -71,13 +71,14 @@ class Example2_Ex {
 
         // ユーザーに変換してほしい(API)
         $list2 = self::lazy__array_map__convert_userinfo($list);
+        $list3 = self::lazy__array_map__convert_userinfo($list);
 
         // deleted_atで配列に分けてほしい！
         // 先頭各５個ずつまで
         $deleted_users =
             iterator_to_array(self::lazy__array_take(self::lazy__array_filter__is_user_deleted($list2), 5));
         $current_member_users =
-            iterator_to_array(self::lazy__array_take(self::lazy__array_filter__is_user_current_member($list2), 5));
+            iterator_to_array(self::lazy__array_take(self::lazy__array_filter__is_user_current_member($list3), 5));
 
         // 課金額の各小計を出してほしい！
         $deleted_users_sum_billing_amount =
