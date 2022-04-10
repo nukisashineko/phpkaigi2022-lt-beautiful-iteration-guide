@@ -64,10 +64,10 @@ class Example2 {
         return $sum;
     }
 
-   private static function lazy__array_take(Generator $list, int $num): Generator{
+   private static function lazy__array_take(Generator $list, int $count): Generator{
         $i = 0;
         foreach($list as $x){
-            if($num <= $i){
+            if($count <= $i){
                 break;
             }
             yield $x;
