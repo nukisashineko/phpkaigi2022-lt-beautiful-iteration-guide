@@ -2,10 +2,9 @@
 
 class Example3
 {
-    private static function identity_async(int $x): \GuzzleHttp\Promise{
-        $defer = new \GuzzleHttp\Promise();
-        $defer->resolve($x);
-        return $defer;
+    private static function identity_async(int $x): \GuzzleHttp\Promise
+        $client = new \GuzzleHttp\Client();
+        return $client->requestAsync('GET', "http://example.com/identity?x={$x}");;
     }
 
     private static function normal_processing(array $list): array {
@@ -28,7 +27,7 @@ class Example3
 
         $result = [];
         foreach ($responses as $response) {
-            $result[] = (int)$response->getBody()->getContents();
+            $result[] = (int)json_decode($response->getBody()->getContents(), true)['result'];
         }
         return $result;
     }
