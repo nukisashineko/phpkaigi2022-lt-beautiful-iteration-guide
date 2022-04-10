@@ -1,3 +1,5 @@
+<?php
+
 class Example3
 {
     private static function identity_async(int $x): \GuzzleHttp\Promise{
@@ -50,3 +52,4 @@ class Example3
 }
 
 Example3::main();
+?>
