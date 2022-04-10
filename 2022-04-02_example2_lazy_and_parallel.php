@@ -2,7 +2,6 @@
 
 use GuzzleHttp\Promise\PromiseInterface;
 
-require_once 'App.php';
 
 class Example2 {
     private static function is_odd(int $x): bool
