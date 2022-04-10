@@ -1,6 +1,10 @@
 <?php
 
-class Example1 {
+use GuzzleHttp\Promise\PromiseInterface;
+
+require_once 'App.php';
+
+class Example2 {
     private static function is_odd(int $x): bool
     {
         return $x % 2 === 1;
@@ -11,17 +15,29 @@ class Example1 {
         return $x % 2 === 0;
     }
 
-    private static function identityAsync(int $x): \GuzzleHttp\Promise{
-        $defer = new \GuzzleHttp\Promise();
-        $defer->resolve($x);
-        return $defer;
+    private static function lazy__array_filter__is_even(Generator $list2): Generator
+    {
+        foreach ($list2 as $x) {
+            if (self::is_even($x)) {
+                yield $x;
+            }
+        }
+    }
+
+    private static function lazy__array_filter__is_odd(Generator $list2): Generator
+    {
+        foreach ($list2 as $x) {
+            if (self::is_odd($x)) {
+                yield  $x;
+            }
+        }
     }
 
     private static function promise__is_odd_then_power_2(\GuzzleHttp\Client $client, int $x)
-    : \GuzzleHttp\Promise {
+    : \GuzzleHttp\Promise\PromiseInterface {
         return  self::is_odd($x)?
-            $client->requestAsync('GET', "https://example.com/math/power/2/{$x}"):
-            self::identityAsync($x);
+            $client->requestAsync('GET', "http://example.com/power?x={$x}"):
+            $client->requestAsync('GET', "http://example.com/identity?x={$x}");
     }
 
     private static function lazy__array_map__is_odd_then_power_2(array $list): Generator{
@@ -35,7 +51,7 @@ class Example1 {
             }
             $responses = \GuzzleHttp\Promise\all($promises)->wait();
             foreach ($responses as $response) {
-                yield (int)$response->getBody()->getContents();
+               yield (int)json_decode($response->getBody()->getContents(), true)['result'];
             }
         }
     }
@@ -48,8 +64,37 @@ class Example1 {
         return $sum;
     }
 
+   private static function lazy__array_take(Generator $list, int $num): Generator{
+        $i = 0;
+        foreach($list as $x){
+            if($num <= $i){
+                break;
+            }
+            yield $x;
+           $i += 1;
+        }
+    }
+
+    public static function main()
+    {
+        $list = range(1, 100);
+
+        // 奇数の場合は2乗した値に置き換えて！
+        $list2 = self::lazy__array_map__is_odd_then_power_2($list);
+        $list3 = self::lazy__array_map__is_odd_then_power_2($list);
+
+        // 偶数・奇数で配列を分けてほしい！
+        // 先頭５つまで
+        $odd_list = iterator_to_array(self::lazy__array_take(self::lazy__array_filter__is_odd($list2),5));
+        $even_list =  iterator_to_array(self::lazy__array_take(self::lazy__array_filter__is_even($list3),5));
+
+        // 分けた配列の各小計を出してほしい！
+        $odd_sum = self::array_sum($odd_list);
+        $even_sum = self::array_sum($even_list);
+    }
+
 }
 
-Example1::main();
+Example2::main();
 
 ?>
