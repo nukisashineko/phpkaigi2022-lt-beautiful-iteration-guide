@@ -14,12 +14,6 @@ class Example3 {
         return $x % 2 === 0;
     }
 
-    private static function identityAsync(int $x): \GuzzleHttp\Promise\PromiseInterface{
-        $defer = new \GuzzleHttp\Promise\Promise();
-        $defer->resolve($x);
-        return $defer;
-    }
-
     private static function promise__is_odd_then_power_2(\GuzzleHttp\Client $client, int $x)
     : \GuzzleHttp\Promise\PromiseInterface {
         return  self::is_odd($x)?
