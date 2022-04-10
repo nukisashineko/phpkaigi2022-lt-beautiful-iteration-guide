@@ -17,7 +17,7 @@ class Example2_Ex {
             }
             $responses = \GuzzleHttp\Promise\all($promises)->wait();
             foreach ($responses as $response) {
-                yield (int)$response->getBody()->getContents();
+                yield (int)json_decode($response->getBody()->getContents(), true)['user'];
             }
         }
     }
